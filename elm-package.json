@@ -1,7 +1,7 @@
 {
-    "version": "2.0.1",
+    "version": "1.0.0",
     "summary": "A ratio type for working with rational numbers",
-    "repository": "https://github.com/imeckler/ratio.git",
+    "repository": "https://github.com/elm-community/ratio.git",
     "license": "BSD3",
     "source-directories": [
         "."
