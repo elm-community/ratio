@@ -1,33 +1,14 @@
-module Ratio.Infix
-    exposing
-        ( (|==|)
-        , (|==)
-        , (|/=|)
-        , (|/=)
-        , (|>|)
-        , (|>=|)
-        , (|<|)
-        , (|<=|)
-        , (+|)
-        , (|+)
-        , (|+|)
-        , (-|)
-        , (|-)
-        , (|-|)
-        , (*|)
-        , (|*)
-        , (|*|)
-        , (/|)
-        , (|/)
-        , (|/|)
-        )
+module Ratio.Infix exposing
+    ( (+|), (|+), (-|), (|-)
+    , (*|), (|*), (/|), (|/)
+    , (|*|), (|+|), (|-|), (|/=), (|/=|), (|/|), (|<=|), (|<|), (|==), (|==|), (|>=|), (|>|)
+    )
 
 {-| Infix operators for Rationals.
 
-Expressions may include both Rationals and Ints.  Where both operands are Rationals, we surround the operator with the '|' symbol.
+Expressions may include both Rationals and Ints. Where both operands are Rationals, we surround the operator with the '|' symbol.
 Where one operand is a Rational and the other an Int, we place the '|' symbol at the side of the operator adjacent to the Rational.
 For example (where r is a Rational and i an Int):
-
 
     r |+| r
 
@@ -37,11 +18,14 @@ For example (where r is a Rational and i an Int):
 
 
 # Infix comparisons
+
 @docs (|==|), (|==), (|/=|), (|/=), (|>|), (|>=|), (|<|), (|<=|)
 
+
 # Infix arithmetic
-@docs  (+|), (|+), (|+|), (-|), (|-), (|-|),
-       (*|), (|*), (|*|), (/|), (|/), (|/|)
+
+@docs (+|), (|+), (|+|), (-|), (|-), (|-|)
+@docs (*|), (|*), (|*|), (/|), (|/), (|/|)
 
 -}
 
@@ -49,38 +33,16 @@ import Ratio exposing (..)
 
 
 infixl 6 |+
-
-
 infixl 6 +|
-
-
 infixl 6 |+|
-
-
 infixl 6 |-
-
-
 infixl 6 -|
-
-
 infixl 6 |-|
-
-
 infixl 7 |*
-
-
 infixl 7 *|
-
-
 infixl 7 |*|
-
-
 infixl 7 |/
-
-
 infixl 7 /|
-
-
 infixl 7 |/|
 
 
@@ -162,7 +124,7 @@ infixl 7 |/|
 -}
 (|+) : Rational -> Int -> Rational
 (|+) =
-    flip (+|)
+    \b a -> (+|) a b
 
 
 {-| Synonym for Ratio.add
@@ -214,7 +176,7 @@ infixl 7 |/|
 -}
 (*|) : Int -> Rational -> Rational
 (*|) =
-    flip multiplyByInt
+    \b a -> multiplyByInt a b
 
 
 {-| Synonym for Ratio.multiply

@@ -1,59 +1,46 @@
-module Ratio
-    exposing
-        ( gcd
-        , add
-        , subtract
-        , multiply
-        , multiplyByInt
-        , divide
-        , divideByInt
-        , divideIntBy
-        , negate
-        , invert
-        , Rational
-        , over
-        , denominator
-        , numerator
-        , split
-        , toFloat
-        , fromInt
-        , eq
-        , ne
-        , gt
-        , lt
-        , ge
-        , le
-        , compare
-        , max
-        , min
-        , isZero
-        , isInfinite
-        , round
-        , floor
-        , ceiling
-        , truncate
-        )
+module Ratio exposing
+    ( Rational
+    , over, fromInt
+    , eq, ne, gt, lt, ge, le, max, min, compare
+    , add, subtract, multiply, multiplyByInt
+    , divide, divideByInt, divideIntBy, negate
+    , isZero, isInfinite, round, floor, ceiling, truncate
+    , numerator, denominator, split
+    , gcd, invert, toFloat
+    )
 
 {-| A simple module providing a ratio type for rational numbers
 
+
 # Types
+
 @docs Rational
 
+
 # Construction
+
 @docs over, fromInt
 
+
 # Comparison
+
 @docs eq, ne, gt, lt, ge, le, max, min, compare
 
+
 # Mathematics
+
 @docs add, subtract, multiply, multiplyByInt
 @docs divide, divideByInt, divideIntBy, negate
 @docs isZero, isInfinite, round, floor, ceiling, truncate
 
+
 # Elimination
+
 @docs numerator, denominator, split
 
+
 # Utils
+
 @docs gcd, invert, toFloat
 
 -}
@@ -62,12 +49,11 @@ import Basics exposing (..)
 
 
 {-| "Arbitrary" (up to `max_int` size) precision fractional numbers. Think of
-    it as the length of a rigid bar that you've constructed from a bunch of
-    initial bars of the same fixed length
-    by the operations of gluing bars together and shrinking a
-    given bar so that an integer number of copies of it glues together to
-    make another given bar.
-
+it as the length of a rigid bar that you've constructed from a bunch of
+initial bars of the same fixed length
+by the operations of gluing bars together and shrinking a
+given bar so that an integer number of copies of it glues together to
+make another given bar.
 -}
 type Rational
     = Rational Int Int
@@ -79,8 +65,9 @@ gcd : Int -> Int -> Int
 gcd a b =
     if b == 0 then
         a
+
     else
-        gcd b (a % b)
+        gcd b (modBy b a)
 
 
 
@@ -98,11 +85,12 @@ normalize (Rational p q) =
             gcd p q
                 * (if q < 0 then
                     -1
+
                    else
                     1
                   )
     in
-        Rational (p // k) (q // k)
+    Rational (p // k) (q // k)
 
 
 
@@ -131,9 +119,9 @@ subtract =
 
 
 {-| Mulitplication. `mulitply x (c / d)` is the length of the bar that you'd get
-    if you glued `c` copies of a bar of length `x` end-to-end and then shrunk it
-    down enough so that `d` copies of the shrunken bar would fit in the big
-    glued bar.
+if you glued `c` copies of a bar of length `x` end-to-end and then shrunk it
+down enough so that `d` copies of the shrunken bar would fit in the big
+glued bar.
 -}
 multiply : Rational -> Rational -> Rational
 multiply (Rational a b) (Rational c d) =
@@ -179,7 +167,7 @@ divideIntBy i r =
 -}
 negate : Rational -> Rational
 negate (Rational a b) =
-    Rational (-a) b
+    Rational -a b
 
 
 {-| invert the rational. r becomes 1/r.
@@ -193,8 +181,9 @@ invert (Rational a b) =
 -}
 over : Int -> Int -> Rational
 over x y =
-    if (y < 0) then
+    if y < 0 then
         normalize (Rational -x -y)
+
     else
         normalize (Rational x y)
 
@@ -278,6 +267,7 @@ max : Rational -> Rational -> Rational
 max a b =
     if gt a b then
         a
+
     else
         b
 
@@ -287,6 +277,7 @@ min : Rational -> Rational -> Rational
 min a b =
     if lt a b then
         a
+
     else
         b
 
@@ -294,13 +285,13 @@ min a b =
 {-| -}
 isZero : Rational -> Bool
 isZero r =
-    0 == (numerator r)
+    0 == numerator r
 
 
 {-| -}
 isInfinite : Rational -> Bool
 isInfinite r =
-    0 == (denominator r)
+    0 == denominator r
 
 
 {-| -}
@@ -329,4 +320,4 @@ truncate =
 
 rel : (Int -> Int -> Bool) -> Rational -> Rational -> Bool
 rel relop a b =
-    relop ((numerator a) * (denominator b)) ((numerator b) * (denominator a))
+    relop (numerator a * denominator b) (numerator b * denominator a)
